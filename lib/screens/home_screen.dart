@@ -12,33 +12,135 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: background,
       appBar: _appBar(),
       bottomNavigationBar: _bottomNavigationBar(),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Assalamualaikum',
-              style: GoogleFonts.poppins(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-                color: text,
-              ),
+      body: DefaultTabController(
+        length: 4,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: NestedScrollView(
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return [
+                SliverToBoxAdapter(
+                  child: _greeting(),
+                ),
+                SliverAppBar(
+                  pinned: true,
+                  elevation: 0,
+                  backgroundColor: background,
+                  automaticallyImplyLeading: false,
+                  bottom: const PreferredSize(
+                    preferredSize: Size.fromHeight(0),
+                    child: TabBar(
+                      tabs: [
+                        Tab(child: Text('Surah')),
+                        Tab(child: Text('Para')),
+                        Tab(child: Text('Page')),
+                        Tab(child: Text('Hijb')),
+                      ],
+                    ),
+                  ),
+                ),
+              ];
+            },
+            body: TabBarView(
+              children: [
+                Container(), // Replace with your widget for Surah tab
+                Container(), // Replace with your widget for Juz tab
+                Container(), // Replace with your widget for Hafalan tab
+                Container(), // Replace with your widget for Bookmark tab
+              ],
             ),
-            const SizedBox(
-              height: 4,
-            ),
-            Text(
-              'Haykal Gibran Hakim',
-              style: GoogleFonts.poppins(
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
+    );
+  }
+
+  Column _greeting() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Assalamualaikum',
+          style: GoogleFonts.poppins(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+            color: text,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          'Haykal Gibran Hakim',
+          style: GoogleFonts.poppins(
+            fontSize: 24,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
+        ),
+        const SizedBox(height: 24),
+        _LastRead(),
+      ],
+    );
+  }
+
+  // ignore: non_constant_identifier_names
+  Stack _LastRead() {
+    return Stack(
+      children: [
+        Container(
+          height: 131,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            gradient: const LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomRight,
+              colors: [Color(0xFFDF98FA), Color(0xFF9055FF)],
+            ),
+          ),
+        ),
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: SvgPicture.asset('assets/svgs/quran.svg'),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  SvgPicture.asset('assets/svgs/book.svg'),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Last Read',
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Text(
+                'Al-Fatihah',
+                style: GoogleFonts.poppins(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 18,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'Ayat No.1',
+                style: GoogleFonts.poppins(
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -52,9 +154,7 @@ class HomeScreen extends StatelessWidget {
               onPressed: () {},
               icon: SvgPicture.asset('assets/svgs/menu-icon.svg'),
             ),
-            const SizedBox(
-              width: 24,
-            ),
+            const SizedBox(width: 24),
             Text(
               'Quran App',
               style: GoogleFonts.poppins(
@@ -86,15 +186,19 @@ class HomeScreen extends StatelessWidget {
         ],
       );
 
-  BottomNavigationBarItem _bottomBarItem(
-          {required String icon, required String label}) =>
+  BottomNavigationBarItem _bottomBarItem({
+    required String icon,
+    required String label,
+  }) =>
       BottomNavigationBarItem(
         icon: SvgPicture.asset(
           icon,
+          // ignore: deprecated_member_use
           color: text,
         ),
         activeIcon: SvgPicture.asset(
           icon,
+          // ignore: deprecated_member_use
           color: purple,
         ),
         label: label,
