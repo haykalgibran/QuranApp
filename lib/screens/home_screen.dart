@@ -23,35 +23,57 @@ class HomeScreen extends StatelessWidget {
                 SliverToBoxAdapter(
                   child: _greeting(),
                 ),
-                SliverAppBar(
-                  pinned: true,
-                  elevation: 0,
-                  backgroundColor: background,
-                  automaticallyImplyLeading: false,
-                  bottom: const PreferredSize(
-                    preferredSize: Size.fromHeight(0),
-                    child: TabBar(
-                      tabs: [
-                        Tab(child: Text('Surah')),
-                        Tab(child: Text('Para')),
-                        Tab(child: Text('Page')),
-                        Tab(child: Text('Hijb')),
-                      ],
-                    ),
-                  ),
-                ),
+                _buildSliverAppBar(),
               ];
             },
-            body: TabBarView(
+            body: const TabBarView(
               children: [
-                Container(), // Replace with your widget for Surah tab
-                Container(), // Replace with your widget for Juz tab
-                Container(), // Replace with your widget for Hafalan tab
-                Container(), // Replace with your widget for Bookmark tab
+                SurahTab(), // Replace with your widget for Surah tab
+                ParaTab(), // Replace with your widget for Juz tab
+                PageTab(), // Replace with your widget for Hafalan tab
+                HijbTab(), // Replace with your widget for Bookmark tab
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildSliverAppBar() {
+    return SliverAppBar(
+      backgroundColor: background,
+      elevation: 0,
+      pinned: true,
+      floating: false,
+      automaticallyImplyLeading: false,
+      bottom: PreferredSize(
+        preferredSize: const Size.fromHeight(0), // Adjust height as needed
+        child: _tab(),
+      ),
+    );
+  }
+
+  TabBar _tab() {
+    return TabBar(
+      unselectedLabelColor: text,
+      labelColor: Colors.white,
+      indicatorColor: purple,
+      indicatorWeight: 3,
+      tabs: [
+        _tabItem(label: "Surah"),
+        _tabItem(label: "Para"),
+        _tabItem(label: "Page"),
+        _tabItem(label: "Hijb"),
+      ],
+    );
+  }
+
+  Tab _tabItem({required String label}) {
+    return Tab(
+      child: Text(
+        label,
+        style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w600),
       ),
     );
   }
@@ -78,13 +100,12 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 24),
-        _LastRead(),
+        _lastRead(),
       ],
     );
   }
 
-  // ignore: non_constant_identifier_names
-  Stack _LastRead() {
+  Stack _lastRead() {
     return Stack(
       children: [
         Container(
@@ -203,4 +224,61 @@ class HomeScreen extends StatelessWidget {
         ),
         label: label,
       );
+}
+
+// Placeholder widgets for each tab
+class SurahTab extends StatelessWidget {
+  const SurahTab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text(
+        'Surah Tab Content',
+        style: TextStyle(color: Colors.white),
+      ),
+    );
+  }
+}
+
+class ParaTab extends StatelessWidget {
+  const ParaTab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text(
+        'Para Tab Content',
+        style: TextStyle(color: Colors.white),
+      ),
+    );
+  }
+}
+
+class PageTab extends StatelessWidget {
+  const PageTab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text(
+        'Page Tab Content',
+        style: TextStyle(color: Colors.white),
+      ),
+    );
+  }
+}
+
+class HijbTab extends StatelessWidget {
+  const HijbTab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text(
+        'Hijb Tab Content',
+        style: TextStyle(color: Colors.white),
+      ),
+    );
+  }
 }
