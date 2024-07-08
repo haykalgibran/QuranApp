@@ -83,7 +83,7 @@ class HomeScreen extends StatelessWidget {
           height: 4,
         ),
         Text(
-          'Arif Iskandar',
+          'Haykal Gibran Hakim',
           style: GoogleFonts.poppins(
               fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
         ),
